@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -33,10 +35,10 @@ class ToDoViewModel(private val todoRepo: ToDoRepository): ViewModel() {
     )
 
     private val todoState = MutableStateFlow<ToDoState>(ToDoState(false,false))
-    val _todoState: StateFlow<ToDoState> = todoState
+    val _todoState: StateFlow<ToDoState> = todoState.asStateFlow()
 
     private val toastMsg = MutableSharedFlow<String>()
-    val _toastMsg: SharedFlow<String> = toastMsg
+    val _toastMsg: SharedFlow<String> = toastMsg.asSharedFlow()
 
     init {
         observeTodoLists()

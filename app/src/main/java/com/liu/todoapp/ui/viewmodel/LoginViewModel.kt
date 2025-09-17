@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -28,16 +30,16 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val repository = UserDBRepository(MyApp.db.loginDao())
 
     private val state = MutableStateFlow<LoginState>(LoginState(false,false))
-    val _state: StateFlow<LoginState> = state
+    val _state: StateFlow<LoginState> = state.asStateFlow()
 
     private val loginDBState = MutableStateFlow<LoginDBState>(LoginDBState(0,null,0,0))
-    val _loginDBState: StateFlow<LoginDBState> = loginDBState
+    val _loginDBState: StateFlow<LoginDBState> = loginDBState.asStateFlow()
 
     private val navigationEvent = MutableSharedFlow<ToDoDestination>()
-    val _navigationEvent: SharedFlow<ToDoDestination> = navigationEvent
+    val _navigationEvent: SharedFlow<ToDoDestination> = navigationEvent.asSharedFlow()
 
     private val toastEvent = MutableSharedFlow<String>()
-    val _toastEvent: SharedFlow<String> = toastEvent
+    val _toastEvent: SharedFlow<String> = toastEvent.asSharedFlow()
 
     fun toLogin(account: String, password: String) {
         viewModelScope.launch {

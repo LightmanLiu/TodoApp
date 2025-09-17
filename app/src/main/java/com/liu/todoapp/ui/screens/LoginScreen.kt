@@ -67,7 +67,8 @@ fun LoginScreen(paddingValues: PaddingValues) {
         Retrofit.Builder()
             .baseUrl("http://xxxx.xxxx.xxxx/")
             .addConverterFactory(GsonConverterFactory.create())
-            .build().create(LoginApiService::class.java)
+            .build()
+            .create(LoginApiService::class.java)
     }
 
     val repository = remember { LoginRepositoryImpl(api) }

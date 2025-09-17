@@ -48,10 +48,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.liu.todoapp.R
 import com.liu.todoapp.ui.model.Todo
 import com.liu.todoapp.ui.network.ToDoApiService
 import com.liu.todoapp.ui.repository.ToDoRepositoryImpl
+import com.liu.todoapp.ui.util.ToDoViewModelFactory
 import com.liu.todoapp.ui.viewmodel.ToDoViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
@@ -73,7 +75,9 @@ fun ToDoScreen(paddingValues: PaddingValues) {
 
     val todoRepository = remember { ToDoRepositoryImpl(api) }
 
-    val toDoViewModel = remember { ToDoViewModel(todoRepository) }
+    val toDoViewModel: ToDoViewModel = viewModel(
+        factory = ToDoViewModelFactory(todoRepository)
+    )
 
     val todoState by toDoViewModel._todoState.collectAsState()
 
