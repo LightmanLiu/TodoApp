@@ -48,6 +48,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.liu.todoapp.R
 import com.liu.todoapp.ui.model.Todo
@@ -79,7 +80,7 @@ fun ToDoScreen(paddingValues: PaddingValues) {
         factory = ToDoViewModelFactory(todoRepository)
     )
 
-    val todoState by toDoViewModel._todoState.collectAsState()
+    val todoState by toDoViewModel._todoState.collectAsStateWithLifecycle()
 
     val addItem = rememberSaveable { mutableStateOf("") }
 

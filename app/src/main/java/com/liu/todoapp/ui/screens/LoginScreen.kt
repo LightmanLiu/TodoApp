@@ -45,6 +45,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.liu.todoapp.ui.model.User
 import com.liu.todoapp.ui.network.LoginApiService
@@ -78,8 +79,8 @@ fun LoginScreen(paddingValues: PaddingValues) {
     )
 
 //    val loginState by loginViewModel._state.collectAsState()
-    val isRegister by loginViewModel._state.map { it.isRegister }.collectAsState(false)
-    val dialogState by loginViewModel._state.map { it.loginDialog }.collectAsState(null)
+    val isRegister by loginViewModel._state.map { it.isRegister }.collectAsStateWithLifecycle(false)
+    val dialogState by loginViewModel._state.map { it.loginDialog }.collectAsStateWithLifecycle(null)
 
     var account by rememberSaveable { mutableStateOf("") }
     var pwd by remember { mutableStateOf("") }
