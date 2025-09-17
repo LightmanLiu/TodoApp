@@ -28,7 +28,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -144,7 +143,7 @@ fun ToDoScreen(paddingValues: PaddingValues) {
             }
         }
 
-        Text("Already Favorite:  $favoriteCount / ${todoState.lists?.size ?: 0}")
+        Text("Already Favorite:  $favoriteCount / ${todoState.lists.size}")
 
         Spacer(modifier = Modifier.height(5.dp))
 
