@@ -3,7 +3,9 @@ package com.liu.todoapp.ui
 import android.app.Application
 import androidx.room.Room
 import com.liu.todoapp.ui.database.RoomDB
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class MyApp: Application() {
 
     companion object{

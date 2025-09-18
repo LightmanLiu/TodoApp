@@ -44,38 +44,21 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.liu.todoapp.ui.model.User
-import com.liu.todoapp.ui.network.LoginApiService
-import com.liu.todoapp.ui.repository.LoginRepositoryImpl
-import com.liu.todoapp.ui.util.LoginViewModelFactory
 import com.liu.todoapp.ui.util.NavControllerManager
 import com.liu.todoapp.ui.viewmodel.LoginDialog
 import com.liu.todoapp.ui.viewmodel.LoginViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 @Composable
 fun LoginScreen(paddingValues: PaddingValues) {
     val context = LocalContext.current
 
-    val api = remember {
-        Retrofit.Builder()
-            .baseUrl("http://xxxx.xxxx.xxxx/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(LoginApiService::class.java)
-    }
-
-    val repository = remember { LoginRepositoryImpl(api) }
-
-    val loginViewModel: LoginViewModel = viewModel(
-        factory = LoginViewModelFactory(repository)
-    )
+    val loginViewModel: LoginViewModel = hiltViewModel()
 
 //    val loginState by loginViewModel._state.collectAsState()
     val isRegister by loginViewModel._state.map { it.isRegister }.collectAsStateWithLifecycle(false)

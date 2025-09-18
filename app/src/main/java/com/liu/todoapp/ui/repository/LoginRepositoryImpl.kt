@@ -4,8 +4,9 @@ import com.liu.todoapp.ui.model.User
 import com.liu.todoapp.ui.network.ApiResult
 import com.liu.todoapp.ui.network.LoginApiService
 import com.liu.todoapp.ui.util.parseApiResult
+import javax.inject.Inject
 
-class LoginRepositoryImpl(private val loginApiService: LoginApiService): LoginRepository {
+class LoginRepositoryImpl @Inject constructor(private val loginApiService: LoginApiService): LoginRepository {
     override suspend fun login(
         account: String,
         password: String

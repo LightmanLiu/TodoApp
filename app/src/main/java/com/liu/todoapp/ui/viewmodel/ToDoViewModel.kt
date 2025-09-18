@@ -7,6 +7,7 @@ import com.liu.todoapp.ui.MyApp
 import com.liu.todoapp.ui.model.Todo
 import com.liu.todoapp.ui.repository.ToDoRepository
 import com.liu.todoapp.ui.repository.TodoDBRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -16,10 +17,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class ToDoState(val isRefresh: Boolean, val isLoadingMore: Boolean, val lists: List<Todo> = emptyList<Todo>())
 
-class ToDoViewModel(private val todoRepo: ToDoRepository): ViewModel() {
+@HiltViewModel
+class ToDoViewModel @Inject constructor(private val todoRepo: ToDoRepository): ViewModel() {
 
     private val TAG: String = "ToDoViewModel"
 

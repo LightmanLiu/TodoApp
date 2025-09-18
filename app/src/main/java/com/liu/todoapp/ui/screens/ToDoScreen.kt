@@ -47,37 +47,20 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.liu.todoapp.R
 import com.liu.todoapp.ui.model.Todo
-import com.liu.todoapp.ui.network.ToDoApiService
-import com.liu.todoapp.ui.repository.ToDoRepositoryImpl
-import com.liu.todoapp.ui.util.ToDoViewModelFactory
 import com.liu.todoapp.ui.viewmodel.ToDoViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToDoScreen(paddingValues: PaddingValues) {
     val context = LocalContext.current
 
-    val api = remember {
-        Retrofit.Builder()
-            .baseUrl("http://xxxx.xxxx.xx/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ToDoApiService::class.java)
-    }
-
-    val todoRepository = remember { ToDoRepositoryImpl(api) }
-
-    val toDoViewModel: ToDoViewModel = viewModel(
-        factory = ToDoViewModelFactory(todoRepository)
-    )
+    val toDoViewModel: ToDoViewModel = hiltViewModel()
 
     val todoState by toDoViewModel._todoState.collectAsStateWithLifecycle()
 

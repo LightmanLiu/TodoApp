@@ -9,6 +9,7 @@ import com.liu.todoapp.ui.model.User
 import com.liu.todoapp.ui.repository.LoginRepository
 import com.liu.todoapp.ui.repository.UserDBRepository
 import com.liu.todoapp.ui.util.ToDoDestination
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -18,12 +19,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class LoginState(val isLogin: Boolean, val isRegister: Boolean, var curUser: User? = null, var loginDialog: LoginDialog? = null)
 data class LoginDialog(val showDialog: Boolean, val dialogMessage: String)
 data class LoginDBState(val insertResult: Long, val queryResult: User?, val deleteResult: Int, val updateResult: Int)
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(private val loginRepository: LoginRepository) : ViewModel() {
 
     private val TAG: String = "LoginViewModel"
 

@@ -18,7 +18,9 @@ import com.liu.todoapp.ui.screens.ToDoScreen
 import com.liu.todoapp.ui.theme.TodoAppTheme
 import com.liu.todoapp.ui.util.NavControllerManager
 import com.liu.todoapp.ui.util.ToDoDestination
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
