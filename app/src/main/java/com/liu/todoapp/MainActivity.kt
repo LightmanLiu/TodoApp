@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TodoAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    navigationLeadInfo(innerPadding)
+                    NavigationLeadInfo(innerPadding)
                 }
             }
         }
@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun navigationLeadInfo(paddingValues: PaddingValues) {
+fun NavigationLeadInfo(paddingValues: PaddingValues) {
     val navController = rememberNavController()
 
     LaunchedEffect(Unit) {
