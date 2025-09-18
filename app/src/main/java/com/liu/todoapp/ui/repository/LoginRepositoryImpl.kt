@@ -32,6 +32,5 @@ class LoginRepositoryImpl @Inject constructor(private val loginApiService: Login
         } catch (e: Exception) {
             throw e
         }
-        TODO("Not yet implemented")
     }
 }
