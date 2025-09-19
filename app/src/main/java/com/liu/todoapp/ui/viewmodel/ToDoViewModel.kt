@@ -22,11 +22,9 @@ import javax.inject.Inject
 data class ToDoState(val isRefresh: Boolean, val isLoadingMore: Boolean, val lists: List<Todo> = emptyList<Todo>())
 
 @HiltViewModel
-class ToDoViewModel @Inject constructor(private val todoRepo: ToDoRepository): ViewModel() {
+class ToDoViewModel @Inject constructor(private val todoRepo: ToDoRepository, private val repository: TodoDBRepository): ViewModel() {
 
     private val TAG: String = "ToDoViewModel"
-
-    private val repository = TodoDBRepository(MyApp.db.todoDao())
 
     val fakeTodos = listOf(
         Todo(id = 1, title = "Buy groceries", details = "Milk, Eggs, Bread, Fruits", isFavorite = false),

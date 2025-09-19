@@ -26,11 +26,9 @@ data class LoginDialog(val showDialog: Boolean, val dialogMessage: String)
 data class LoginDBState(val insertResult: Long, val queryResult: User?, val deleteResult: Int, val updateResult: Int)
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val loginRepository: LoginRepository) : ViewModel() {
+class LoginViewModel @Inject constructor(private val loginRepository: LoginRepository, private val repository: UserDBRepository) : ViewModel() {
 
     private val TAG: String = "LoginViewModel"
-
-    private val repository = UserDBRepository(MyApp.db.loginDao())
 
     private val state = MutableStateFlow<LoginState>(LoginState(false,false))
     val _state: StateFlow<LoginState> = state.asStateFlow()

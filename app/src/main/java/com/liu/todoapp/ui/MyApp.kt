@@ -1,24 +1,7 @@
 package com.liu.todoapp.ui
 
 import android.app.Application
-import androidx.room.Room
-import com.liu.todoapp.ui.database.RoomDB
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class MyApp: Application() {
-
-    companion object{
-        lateinit var db: RoomDB
-            private set
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        db = Room.databaseBuilder(
-            applicationContext,
-            RoomDB::class.java,
-            "my_database"
-        ).build()
-    }
-}
+class MyApp: Application()
