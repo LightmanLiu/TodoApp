@@ -161,22 +161,30 @@ class LoginViewModel @Inject constructor(private val loginRepository: LoginRepos
 
     fun loginOfflineMode(account: String, pwd: String) {
         viewModelScope.launch {
-            val res: User? = repository.observeCurUserInfo(account).firstOrNull()
-
-            if (res != null) {
-                if (res.pwd == pwd) {
-                    state.update { state ->
-                        state.copy(isLogin = true)
-                    }
-                    navigationEvent.emit(ToDoDestination.ToDoSC)
-                } else {
-                    toastEvent.emit("Your password is not correct!")
-                }
+            if (_state.value.isLogin || _state.value.isRegister) {
+                toastEvent.emit("You've already clicked and in-progress, please wait!")
+            } else if (account.isEmpty()) {
+                toastEvent.emit("Account cannot be empty!")
+            } else if (pwd.isEmpty()) {
+                toastEvent.emit("password cannot be empty!")
             } else {
-                state.update { state ->
-                    state.copy(isRegister = true)
+                val res: User? = repository.observeCurUserInfo(account).firstOrNull()
+
+                if (res != null) {
+                    if (res.pwd == pwd) {
+                        state.update { state ->
+                            state.copy(isLogin = true)
+                        }
+                        navigationEvent.emit(ToDoDestination.ToDoSC)
+                    } else {
+                        toastEvent.emit("Your password is not correct!")
+                    }
+                } else {
+                    state.update { state ->
+                        state.copy(isRegister = true)
+                    }
+                    toastEvent.emit("The account is not exist, please register!")
                 }
-                toastEvent.emit("The account is not exist, please register!")
             }
         }
     }
@@ -216,24 +224,32 @@ class LoginViewModel @Inject constructor(private val loginRepository: LoginRepos
 
     fun insertUserInfo(user: User,forceCheckDB: Boolean = false) {
         viewModelScope.launch {
-            val existingUser = if (forceCheckDB) {
-                repository.observeCurUserInfo(user.account).firstOrNull()
+            if (_state.value.isLogin || _state.value.isRegister) {
+                toastEvent.emit("You've already clicked and in-progress, please wait!")
+            } else if (user.account.isEmpty()) {
+                toastEvent.emit("Account cannot be empty!")
+            } else if (user.pwd.isEmpty()) {
+                toastEvent.emit("password cannot be empty!")
             } else {
-                _loginDBState.value.queryResult
-            }
+                val existingUser = if (forceCheckDB) {
+                    repository.observeCurUserInfo(user.account).firstOrNull()
+                } else {
+                    _loginDBState.value.queryResult
+                }
 
-            if (existingUser != null) {
-                toastEvent.emit("The account already exists!")
-            } else {
-                val result = repository.insertUser(user)
-                loginDBState.update {
-                    it.copy(insertResult = result)
+                if (existingUser != null) {
+                    toastEvent.emit("The account already exists!")
+                } else {
+                    val result = repository.insertUser(user)
+                    loginDBState.update {
+                        it.copy(insertResult = result)
+                    }
+                    state.update { state ->
+                        state.copy(isRegister = false, isLogin = true)
+                    }
+                    navigationEvent.emit(ToDoDestination.ToDoSC)
+                    resetStateValue()
                 }
-                state.update { state ->
-                    state.copy(isRegister = false, isLogin = true)
-                }
-                navigationEvent.emit(ToDoDestination.ToDoSC)
-                resetStateValue()
             }
         }
     }
@@ -255,6 +271,23 @@ class LoginViewModel @Inject constructor(private val loginRepository: LoginRepos
                     showDialog = true,
                     dialogMessage = message
                 )
+            )
+        }
+    }
+
+    //Add below methods only for testing
+    fun setLoginInProgress(inProgress: Boolean) {
+        state.update {
+            it.copy(
+                isLogin = inProgress
+            )
+        }
+    }
+
+    fun setRegisterInProgress(inProgress: Boolean) {
+        state.update {
+            it.copy(
+                isRegister = inProgress
             )
         }
     }
